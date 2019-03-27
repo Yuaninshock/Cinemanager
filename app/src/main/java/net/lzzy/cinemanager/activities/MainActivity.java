@@ -13,12 +13,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import net.lzzy.cinemanager.R;
+import net.lzzy.cinemanager.frageents.AddCinemasFragment;
+import net.lzzy.cinemanager.frageents.AddOrdersFragnent;
 import net.lzzy.cinemanager.frageents.CinmasFragment;
 import net.lzzy.cinemanager.frageents.OrdersFragment;
 
-import java.util.function.Function;
-
-import javax.net.ssl.ManagerFactoryParameters;
 
 /**
  * @author Administrator
@@ -74,28 +73,18 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             transaction.hide(f);
         }
         transaction.show(fragment).commit();
-       /* tvTitle.setText("影院列表");*/
-
-
     }
    private Fragment createFragment(int id){
        switch (id){
            case R.id.bar_title_tv_add_cinema:
-               break;
+               return new AddCinemasFragment();
            case R.id.bar_title_tv_view_cinema:
                return new CinmasFragment();
-         /* manager.beginTransaction()
-                  .replace(R.id.fraqnebt_container,new CinmasFragment())
-                  .commit();*/
-
            case R.id.bar_title_tv_add_order:
-               break;
+               return new AddOrdersFragnent();
            case R.id.bar_title_tv_view_order:
-            /* tvTitle.setText("我的订单");
-             manager.beginTransaction()
-                     .replace(R.id.fraqnebt_container,new OrdersFragment())
-                     .commit();*/
                return new OrdersFragment();
+
            default:
                break;
 

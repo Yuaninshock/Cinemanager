@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/thirtyDp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/bar_title_menu_add_newCinema"
+        android:layout_marginStart="@dimen/tenDP"
+        android:background="@color/color3"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/thirtySp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fifteenDp"
+        android:layout_marginTop="@dimen/tenDP"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/dialog_add_cinema_layout_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/twentySp"
+                android:text="@string/bar_title_menu_add_site" />
+
+            <TextView
+                android:id="@+id/dialog_add_tv_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bar_title_menu_add_area"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/twentySp"
+                android:layout_marginStart="@dimen/oneHundredDp"
+                android:layout_marginEnd="@dimen/tenDP" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/dialog_add_cinema_edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/tenDP"
+        android:hint="@string/bar_title_menu_add_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fiveDP"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_add_cinema_btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/bar_title_menu_add_ok" />
+
+        <Button
+            android:id="@+id/dialog_add_cinema_btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/bar_title_menu_add_cancel" />
+
+    </LinearLayout>
+</LinearLayout>
