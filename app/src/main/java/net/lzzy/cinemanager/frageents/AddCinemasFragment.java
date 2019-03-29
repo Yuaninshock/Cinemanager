@@ -1,6 +1,7 @@
 package net.lzzy.cinemanager.frageents;
 
 
+import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,15 +24,17 @@ import net.lzzy.sqllib.GenericAdapter;
 public class AddCinemasFragment extends BeseFargment {
     private GenericAdapter<Cinema> adapter;
     private TextView tvArea;
-    private LinearLayout layoutAddCinema;
     private EditText edtName;
     private String province="广西壮族自治区";
     private String city="柳州市";
     private String area="鱼峰区";
+    private OnFrgenTutoeractuibKustebt listbier;
+    private OnCinemaCreatedKusteber cinemListener;
 
     @Override
     protected void populate() {
         showDialog();
+        listbier.hideSearch();
 
     }
     private void showDialog() {
@@ -66,15 +69,49 @@ public class AddCinemasFragment extends BeseFargment {
             cinema.setCity(city);
             cinema.setProvince(province);
             cinema.setLocation(tvArea.getText().toString());
-            adapter.add(cinema);
             edtName.setText("");
-            layoutAddCinema.setVisibility(View.GONE);
+            cinemListener.saceCinema(cinema);
         });
-
+        find(R.id.dialog_add_cinema_btn_cancel).setOnClickListener(v->
+               cinemListener.canecelAddCinema() );
     }
 
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_add_cinemas;
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            listbier.hideSearch();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listbier =(OnFrgenTutoeractuibKustebt)context;
+            cinemListener=(OnCinemaCreatedKusteber)context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()+"必须实现OnFrgenTutoeractuibKustebt");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listbier=null;
+        cinemListener=null;
+
+    }
+
+    public interface OnCinemaCreatedKusteber{
+       void canecelAddCinema();
+       void  saceCinema(Cinema cinema);
+    }
+
 }
+

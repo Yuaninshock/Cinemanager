@@ -16,14 +16,19 @@ import net.lzzy.cinemanager.R;
 import net.lzzy.cinemanager.frageents.AddCinemasFragment;
 import net.lzzy.cinemanager.frageents.AddOrdersFragnent;
 import net.lzzy.cinemanager.frageents.CinmasFragment;
+import net.lzzy.cinemanager.frageents.OnFrgenTutoeractuibKustebt;
 import net.lzzy.cinemanager.frageents.OrdersFragment;
+import net.lzzy.cinemanager.models.Cinema;
+import net.lzzy.cinemanager.models.CinemaFactory;
 
 
 /**
  * @author Administrator
  */
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
-   private FragmentManager manager= getSupportFragmentManager();
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener,
+        OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber{
+
+    private FragmentManager manager= getSupportFragmentManager();
       private View layoutMenu;
       private SearchView searoh;
     private TextView tvTitle;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -91,5 +97,50 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
        }
        return null;
    }
+
+    @Override
+    public void hideSearch() {
+        searoh.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void canecelAddCinema() {
+   Fragment addConemaFragent=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+       if (addConemaFragent==null){
+           return;
+       }
+       Fragment cinemasFragent=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+       FragmentTransaction transaction=manager.beginTransaction();
+         if (cinemasFragent==null){
+            cinemasFragent =new CinmasFragment();
+             fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragent);
+             transaction.add(R.id.fraqnebt_container,cinemasFragent);
+         }
+         transaction.hide(addConemaFragent).show(cinemasFragent);
+         tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_cinema));
+    }
+
+    @Override
+    public void saceCinema(Cinema cinema) {
+
+        Fragment addCinmenaFragemnet=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+        if (addCinmenaFragemnet==null){
+            return;
+        }
+
+    Fragment cinemasFragment=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+   FragmentTransaction transaction=manager.beginTransaction();
+    if (cinemasFragment==null){
+        cinemasFragment =new CinmasFragment(cinema);
+        fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragment);
+    transaction.add(R.id.fraqnebt_container,cinemasFragment);
+    }else {
+        ((CinmasFragment)cinemasFragment).save(cinema);
+    }
+    transaction.hide(addCinmenaFragemnet).show(cinemasFragment).commit();
+     tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_cinema));
+    }
+
+
 
 }

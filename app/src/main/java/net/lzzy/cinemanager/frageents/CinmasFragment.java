@@ -21,7 +21,16 @@ import java.util.List;
 public class CinmasFragment extends BeseFargment {
  private ListView lv;
  private List<Cinema>cinemas;
+    private GenericAdapter<Cinema> adtpter;
+    private Cinema cinema;
+    public CinmasFragment(){}
+    public CinmasFragment(Cinema cinema){
+        this.cinema=cinema;
+    }
 
+    public void save(Cinema cinema ){
+     adtpter.add(cinema);
+    }
  private CinemaFactory factory = CinemaFactory.getInstance();
     @Override
     protected void populate() {
@@ -29,7 +38,7 @@ public class CinmasFragment extends BeseFargment {
         View empty=find(R.id.activity_cinemas_tv_none);
         lv.setEmptyView(empty);
         cinemas=factory.get();
-        GenericAdapter<Cinema> adtpter=new GenericAdapter<Cinema>(getActivity(),
+        adtpter = new GenericAdapter<Cinema>(getActivity(),
                 R.layout.cinemas_item,cinemas) {
             @Override
             public void populate(ViewHolder viewHolder, Cinema cinema) {
@@ -47,6 +56,9 @@ public class CinmasFragment extends BeseFargment {
             }
         };
         lv.setAdapter(adtpter);
+        if (cinema!=null){
+            save(cinema);
+        }
     }
 
 
