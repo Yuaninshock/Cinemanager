@@ -2,6 +2,7 @@ package net.lzzy.cinemanager.frageents;
 
 
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,17 +43,18 @@ public class CinmasFragment extends BeseFargment {
                 R.layout.cinemas_item,cinemas) {
             @Override
             public void populate(ViewHolder viewHolder, Cinema cinema) {
-
+               viewHolder.setTextView(R.id.cinemas_items_name,cinema.getName())
+                       .setTextView(R.id.cinemas_items_location,cinema.getLocation());
             }
 
             @Override
             public boolean persistInsert(Cinema cinema) {
-                return false;
+                return factory.addCinema(cinema);
             }
 
             @Override
             public boolean persistDelete(Cinema cinema) {
-                return false;
+                return factory.deleteCinema(cinema);
             }
         };
         lv.setAdapter(adtpter);
@@ -65,5 +67,16 @@ public class CinmasFragment extends BeseFargment {
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_cinemas;
+    }
+
+    @Override
+    public void search(String kw) {
+        cinemas.clear();
+        if (TextUtils.isEmpty(kw)){
+            cinemas.addAll(factory.get());
+        }else {
+            cinemas.addAll(factory.searchCinemas(kw));
+        }
+        adtpter.notifyDataSetChanged();
     }
 }

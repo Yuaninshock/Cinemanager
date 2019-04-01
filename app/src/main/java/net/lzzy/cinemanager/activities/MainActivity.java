@@ -15,17 +15,19 @@ import android.widget.TextView;
 import net.lzzy.cinemanager.R;
 import net.lzzy.cinemanager.frageents.AddCinemasFragment;
 import net.lzzy.cinemanager.frageents.AddOrdersFragnent;
+import net.lzzy.cinemanager.frageents.BeseFargment;
 import net.lzzy.cinemanager.frageents.CinmasFragment;
 import net.lzzy.cinemanager.frageents.OnFrgenTutoeractuibKustebt;
 import net.lzzy.cinemanager.frageents.OrdersFragment;
 import net.lzzy.cinemanager.models.Cinema;
 import net.lzzy.cinemanager.models.CinemaFactory;
+import net.lzzy.cinemanager.utils.ViewUtils;
 
 
 /**
  * @author Administrator
  */
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener,
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener ,
         OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber{
 
     private FragmentManager manager= getSupportFragmentManager();
@@ -42,6 +44,18 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         setTitleMenu();
+        searoh.setOnQueryTextListener(new ViewUtils.AbstractQueryHandler() {
+            @Override
+            public boolean handleQuery(String kw) {
+               Fragment fragment=manager.findFragmentById(R.id.fraqnebt_container);
+               if (fragment!=null){
+                   if (fragment instanceof CinmasFragment){
+                       ((BeseFargment)fragment).search(kw);
+                   }
+               }
+                return false;
+            }
+        });
     }
     private void setTitleMenu(){
           titleArray.put(R.id.bar_title_tv_add_cinema,"添加影院");
@@ -123,7 +137,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     @Override
     public void saceCinema(Cinema cinema) {
 
-        Fragment addCinmenaFragemnet=fragmentArray.get(R.id.bar_title_tv_view_cinema);
+        Fragment addCinmenaFragemnet=fragmentArray.get(R.id.bar_title_tv_add_cinema);
         if (addCinmenaFragemnet==null){
             return;
         }

@@ -20,4 +20,9 @@ public class OrdersFragment extends BeseFargment {
         return R.layout.fragment_orders;
     }
 
+    @Override
+    public void search(String kw) {
+
+    }
+
 }

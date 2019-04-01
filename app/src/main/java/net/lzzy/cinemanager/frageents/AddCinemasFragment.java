@@ -33,8 +33,11 @@ public class AddCinemasFragment extends BeseFargment {
 
     @Override
     protected void populate() {
+        tvArea=find(R.id.dialog_add_tv_area);
+        edtName=find(R.id.dialog_add_cinema_edt_name);
         showDialog();
         listbier.hideSearch();
+
 
     }
     private void showDialog() {
@@ -79,6 +82,11 @@ public class AddCinemasFragment extends BeseFargment {
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_add_cinemas;
+    }
+
+    @Override
+    public void search(String kw) {
+
     }
 
     @Override

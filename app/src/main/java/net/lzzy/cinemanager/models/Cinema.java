@@ -80,4 +80,7 @@ public class Cinema extends BaseEntity implements Sqlitable {
             return false;
         }
     }
+    public void search(String kw){
+
+    }
 }

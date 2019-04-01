@@ -21,4 +21,9 @@ public class AddOrdersFragnent extends BeseFargment {
     public int getLayoutRes() {
         return R.layout.fragment_add_orders;
     }
+
+    @Override
+    public void search(String kw) {
+
+    }
 }
