@@ -29,6 +29,7 @@ public class OrderFactory {
         return instance;
     }
 
+
     public List<Order> get(){
         return repository.get();
     }
@@ -69,5 +70,13 @@ public class OrderFactory {
     public boolean delete(Order order){
         repository.delete(order);
         return true;
+    }
+    public boolean deleteOrder(Order order){
+        try {
+            repository.delete(order);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
