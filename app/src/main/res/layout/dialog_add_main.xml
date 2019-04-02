@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/activity_add_book_tv_date"
-            android:layout_width="18dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:background="@null"

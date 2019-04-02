@@ -5,10 +5,12 @@ package net.lzzy.cinemanager.frageents;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +59,7 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
     private SearchView search;
     public static final String EXTRA_NEW_CINEMA = "newCinema";
     private LinearLayout layoutAddmain;
-    private ListView lv;
+  /*  private ListView lv;*/
     private Spinner tvArea;
     private EditText edtName;
     private OrderFactory factory=OrderFactory.getInstance();
@@ -77,6 +79,9 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
     private float touchX2;
     private boolean isDelete;
     private onOrderCreatedKusteber orderListener;
+
+
+
 
     /**添加数据*/
     private void addListener() {
@@ -135,7 +140,7 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
         orders=factory.get();
         spCinema.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, cinemas));
-        adapter = new GenericAdapter<Order>(getActivity(),R.layout.main_item, orders) {
+       adapter = new GenericAdapter<Order>(getActivity(),R.layout.main_item, orders) {
 
             @Override
             public void populate(ViewHolder viewHolder, Order order) {
@@ -175,7 +180,7 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
                 return factory.deleteOrder(order);
             }
         };
-        lv.setAdapter(adapter);
+     /*   lv.setAdapter(adapter);*/
         initDatePicker();
         find(R.id.activity_add_book_layout).setOnClickListener(v -> datePicker.show(tvDate.getText().toString()));
         addListener();
@@ -220,12 +225,19 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
 
     @Override
     protected void populate() {
+        initViews();/*setTitleMenu();*/
+        showAndAddOrders();
+
+        //region 无数据视图
+        TextView tvNone=find(R.id.activity_main_tv_none);
+
         find(R.id.dialog_add_main_btn_cancel)
                 .setOnClickListener(v -> {});
 
         find(R.id.dialog_add_main_edt_name).setOnClickListener(v -> {
 
         });
+
 
         find(R.id.dialog_add_main_btn_ok).setOnClickListener(v -> {
             String name=edtName.getText().toString();
@@ -251,13 +263,13 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
             adapter.add(order);
             edtName.setText("");
             edtprice.setText("");
-            layoutAddmain.setVisibility(View.GONE);
+           /*layoutAddmain.setVisibility(View.GONE);*/
         });
 
     }
+
     private void initViews() {
         layoutAddmain = find(R.id.dialog_add_main_layout);
-        lv = find(R.id.activity_main_lv);
         tvArea = find(R.id.dialog_add_main_sp_area);
         edtName = find(R.id.dialog_add_main_edt_name);
         edtprice = find(R.id.dialog_add_main_edt_price);
@@ -318,10 +330,13 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
                 layoutAddmain.setVisibility(View.GONE);
                 break;
 
+
             default:
                 break;
         }
     }
+
+    /**添加数据*/
 
  public interface onOrderCreatedKusteber{
         void canecelAddOrder();

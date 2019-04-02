@@ -20,31 +20,36 @@ import java.util.List;
  * Description:
  */
 public class CinmasFragment extends BeseFargment {
- private ListView lv;
- private List<Cinema>cinemas;
+    private ListView lv;
+    private List<Cinema> cinemas;
     private GenericAdapter<Cinema> adtpter;
     private Cinema cinema;
-    public CinmasFragment(){}
-    public CinmasFragment(Cinema cinema){
-        this.cinema=cinema;
+     private OnCinemaSelectedLiseener oncinemnaselected;
+    public CinmasFragment() {
     }
 
-    public void save(Cinema cinema ){
-     adtpter.add(cinema);
+    public CinmasFragment(Cinema cinema) {
+        this.cinema = cinema;
     }
- private CinemaFactory factory = CinemaFactory.getInstance();
+
+    public void save(Cinema cinema) {
+        adtpter.add(cinema);
+    }
+
+    private CinemaFactory factory = CinemaFactory.getInstance();
+
     @Override
     protected void populate() {
-        lv= find(R.id.activity_cinema_lv);
-        View empty=find(R.id.activity_cinemas_tv_none);
+        lv = find(R.id.activity_cinema_lv);
+        View empty = find(R.id.activity_cinemas_tv_none);
         lv.setEmptyView(empty);
-        cinemas=factory.get();
+        cinemas = factory.get();
         adtpter = new GenericAdapter<Cinema>(getActivity(),
-                R.layout.cinemas_item,cinemas) {
+                R.layout.cinemas_item, cinemas) {
             @Override
             public void populate(ViewHolder viewHolder, Cinema cinema) {
-               viewHolder.setTextView(R.id.cinemas_items_name,cinema.getName())
-                       .setTextView(R.id.cinemas_items_location,cinema.getLocation());
+                viewHolder.setTextView(R.id.cinemas_items_name, cinema.getName())
+                        .setTextView(R.id.cinemas_items_location, cinema.getLocation());
             }
 
             @Override
@@ -58,7 +63,7 @@ public class CinmasFragment extends BeseFargment {
             }
         };
         lv.setAdapter(adtpter);
-        if (cinema!=null){
+        if (cinema != null) {
             save(cinema);
         }
     }
@@ -72,11 +77,15 @@ public class CinmasFragment extends BeseFargment {
     @Override
     public void search(String kw) {
         cinemas.clear();
-        if (TextUtils.isEmpty(kw)){
+        if (TextUtils.isEmpty(kw)) {
             cinemas.addAll(factory.get());
-        }else {
+        } else {
             cinemas.addAll(factory.searchCinemas(kw));
         }
         adtpter.notifyDataSetChanged();
     }
+   public interface OnCinemaSelectedLiseener{
+        void onCinemaSelected(String cinemaId);
+   }
+
 }
