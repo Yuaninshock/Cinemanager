@@ -2,6 +2,7 @@ package net.lzzy.cinemanager.frageents;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -78,7 +79,7 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
     private float touchX1;
     private float touchX2;
     private boolean isDelete;
-    private onOrderCreatedKusteber orderListener;
+    private OnOrderCreatedKusteber orderListener;
 
 
 
@@ -140,88 +141,13 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
         orders=factory.get();
         spCinema.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, cinemas));
-       adapter = new GenericAdapter<Order>(getActivity(),R.layout.main_item, orders) {
 
-            @Override
-            public void populate(ViewHolder viewHolder, Order order) {
-                String location= String.valueOf(CinemaFactory.getInstance()
-                        .getById(order.getCinemaId().toString()));
-                viewHolder.setTextView(R.id.main_item_movieName,order.getMovie())
-                        .setTextView(R.id.main_item_area,location);
-                but = viewHolder.getView(R.id.main_item_btn);
-                but.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new AlertDialog.Builder(getActivity())
-                                .setTitle("删除确认")
-                                .setMessage("要删除订单吗？")
-                                .setNegativeButton("取消",null)
-                                .setPositiveButton("确定", (dialog, which) -> adapter.remove(order)).show();
-                    }
-                });
-                viewHolder.getConvertView().setOnTouchListener(new ViewUtils.AbstractTouchHandler() {
-                    @Override
-                    public boolean handleTouch(MotionEvent event) {
-                        slideToDelete(event,order,but);
-                        return true;
-                    }
-
-
-                });
-            }
-
-            @Override
-            public boolean persistInsert(Order order) {
-                return factory.addOrder(order);
-            }
-
-            @Override
-            public boolean persistDelete(Order order) {
-                return factory.deleteOrder(order);
-            }
-        };
      /*   lv.setAdapter(adapter);*/
         initDatePicker();
         find(R.id.activity_add_book_layout).setOnClickListener(v -> datePicker.show(tvDate.getText().toString()));
         addListener();
     }
-    private void slideToDelete(MotionEvent event, Order order, Button but) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                touchX1=event.getX();
 
-                break;
-            case MotionEvent.ACTION_UP:
-                touchX2 =event.getX();
-                if (touchX1-touchX2> MIN_DISTANCE){
-                    if (!isDelete){
-                        but.setVisibility(View.VISIBLE);
-                        isDelete=true;
-                    }
-
-                }else {
-                    if (but.isShown()){
-                        but.setVisibility(View.GONE);
-                        isDelete=false;
-                    }else {
-                        clickOrder(order);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-    private void clickOrder(Order order) {
-        Cinema cinema=CinemaFactory.getInstance()
-                .getById(order.getCinemaId().toString().toString());
-        String content="["+order.getMovie()+"]"+order.getMovieTime()+"\n"+cinema+"票价"+order.getPrice()+"元";
-        View view= LayoutInflater.from(getActivity()).inflate(R.layout.dialog_qrcode,null);
-        ImageView img=view.findViewById(R.id.dialog_qrcode_img);
-        img.setImageBitmap(AppUtils.createQRCodeBitmap(content,300,300));
-        new AlertDialog.Builder(getActivity())
-                .setView(view).show();
-    }
 
     @Override
     protected void populate() {
@@ -260,14 +186,32 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
             order.setMovie(name);
             order.setPrice(price);
             order.setMovieTime(tvDate.getText().toString());
-            adapter.add(order);
+          /*  adapter.add(order);
             edtName.setText("");
-            edtprice.setText("");
+            edtprice.setText("");*/
+          orderListener.saceOrder(order);
            /*layoutAddmain.setVisibility(View.GONE);*/
         });
-
+      find(R.id.dialog_add_main_btn_cancel).setOnClickListener(v->
+         orderListener.canecelAddOrder());
     }
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            orderListener=(OnOrderCreatedKusteber) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()+"必须实现OnOrderCreatedKusteber");
+        }
+    }
+  /***
+   * 保存数据
+   * */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        orderListener=null;
+    }
     private void initViews() {
         layoutAddmain = find(R.id.dialog_add_main_layout);
         tvArea = find(R.id.dialog_add_main_sp_area);
@@ -336,9 +280,9 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
         }
     }
 
-    /**添加数据*/
+    /**数据接口*/
 
- public interface onOrderCreatedKusteber{
+ public interface OnOrderCreatedKusteber{
         void canecelAddOrder();
         void  saceOrder(Order order);
     }

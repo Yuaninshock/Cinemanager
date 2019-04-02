@@ -16,8 +16,6 @@
             android:id="@+id/main_item_movieName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/twentySp"
-            android:textColor="@drawable/ic_citypicker_onecity"
             tools:text="阿卡丽" />
 
         <TextView

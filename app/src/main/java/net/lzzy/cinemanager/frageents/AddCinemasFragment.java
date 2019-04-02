@@ -21,7 +21,8 @@ import net.lzzy.sqllib.GenericAdapter;
  * Created by lzzy_gxy on 2019/3/27.
  * Description:
  */
-public class AddCinemasFragment extends BeseFargment {
+public class
+AddCinemasFragment extends BeseFargment {
     private GenericAdapter<Cinema> adapter;
     private TextView tvArea;
     private EditText edtName;
@@ -96,7 +97,9 @@ public class AddCinemasFragment extends BeseFargment {
             listbier.hideSearch();
         }
     }
-
+/***
+ * 在加载视图前的方法
+ * */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -21,6 +21,7 @@ import net.lzzy.cinemanager.frageents.OnFrgenTutoeractuibKustebt;
 import net.lzzy.cinemanager.frageents.OrdersFragment;
 import net.lzzy.cinemanager.models.Cinema;
 import net.lzzy.cinemanager.models.CinemaFactory;
+import net.lzzy.cinemanager.models.Order;
 import net.lzzy.cinemanager.utils.ViewUtils;
 
 
@@ -28,7 +29,7 @@ import net.lzzy.cinemanager.utils.ViewUtils;
  * @author Administrator
  */
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener ,
-        OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber{
+        OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber, AddOrdersFragnent.OnOrderCreatedKusteber {
 
     private FragmentManager manager= getSupportFragmentManager();
       private View layoutMenu;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private TextView tvTitle;
     private SparseArray<String>titleArray=new SparseArray<>();
     private SparseArray<Fragment>fragmentArray=new SparseArray<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +51,16 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             public boolean handleQuery(String kw) {
                Fragment fragment=manager.findFragmentById(R.id.fraqnebt_container);
                if (fragment!=null){
-                   if (fragment instanceof CinmasFragment){
+                   if (fragment instanceof BeseFargment){
                        ((BeseFargment)fragment).search(kw);
                    }
                }
                 return false;
             }
         });
+        OrdersFragment ordersFragment=new OrdersFragment();
+        fragmentArray.put(R.id.bar_title_tv_view_order,ordersFragment);
+        manager.beginTransaction().add(R.id.fraqnebt_container,ordersFragment).commit();
     }
     private void setTitleMenu(){
           titleArray.put(R.id.bar_title_tv_add_cinema,"添加影院");
@@ -155,6 +160,45 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_cinema));
     }
 
+/**
+ * 保存fragment数据
+ * **/
+    @Override
+    public void canecelAddOrder() {
+        Fragment addOedernFragent=fragmentArray.get(R.id.bar_title_tv_view_order);
+        if (addOedernFragent==null){
+            return;
+        }
+        Fragment ordersFragent=fragmentArray.get(R.id.bar_title_tv_view_order);
+        FragmentTransaction transaction=manager.beginTransaction();
+        if (ordersFragent==null){
+            ordersFragent =new OrdersFragment();
+           fragmentArray.put(R.id.bar_title_tv_view_order,ordersFragent);
+            transaction.add(R.id.fraqnebt_container,ordersFragent);
+        }
+        transaction.hide(addOedernFragent).show(ordersFragent);
+        tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_order));
+    }
 
 
+
+    @Override
+    public void saceOrder(Order order) {
+        Fragment addOrderFragemnet=fragmentArray.get(R.id.bar_title_tv_add_order);
+        if (addOrderFragemnet==null){
+            return;
+        }
+
+        Fragment ordersFragment=fragmentArray.get(R.id.bar_title_tv_view_order);
+        FragmentTransaction transaction=manager.beginTransaction();
+        if (ordersFragment==null){
+           ordersFragment=new OrdersFragment(order);
+            fragmentArray.put(R.id.bar_title_tv_view_order,ordersFragment);
+            transaction.add(R.id.fraqnebt_container,ordersFragment);
+        }else {
+            ((OrdersFragment)ordersFragment).save(order);
+        }
+        transaction.hide(addOrderFragemnet).show(ordersFragment).commit();
+        tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_order));
+    }
 }
