@@ -1,6 +1,7 @@
 package net.lzzy.cinemanager.frageents;
 
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import net.lzzy.cinemanager.R;
@@ -33,6 +35,7 @@ import java.util.List;
  * Description:
  */
 public class OrdersFragment extends BeseFargment {
+    private static final String ARG_NEW_ORDER ="argNewOrder" ;
     private static GenericAdapter<Order> adapter;
     private List<Order> orders;
     private Button but;
@@ -40,14 +43,25 @@ public class OrdersFragment extends BeseFargment {
     private OrderFactory factory=OrderFactory.getInstance();
     private float touchX1;
     private float touchX2;
+    private Order order;
     private boolean isDelete;
     private AddOrdersFragnent.OnOrderCreatedKusteber orderListener;
 
-    public OrdersFragment(Order order) {
+  public static OrdersFragment newInstance(Order order){
+    OrdersFragment fragment=new OrdersFragment();
+      Bundle arqs=new Bundle();
+      arqs.putParcelable(ARG_NEW_ORDER,order);
+      fragment.setArguments(arqs);
+      return fragment;
+  }
 
-    }
-    public OrdersFragment(){
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+            order=getArguments().getParcelable(ARG_NEW_ORDER);
 
+        }
     }
 
     @Override

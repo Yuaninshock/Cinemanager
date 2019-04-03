@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: artifacts:sqllib:unspecified@jar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e21debac77dd14defb97d77a2ccc528/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2e21debac77dd14defb97d77a2ccc528/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2253500bc10e3c6a18f418740b692591/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2253500bc10e3c6a18f418740b692591/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

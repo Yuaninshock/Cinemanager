@@ -9,6 +9,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"></ListView>
 
+
+
     <TextView
         android:id="@+id/activity_cinemas_tv_none"
         android:layout_width="match_parent"

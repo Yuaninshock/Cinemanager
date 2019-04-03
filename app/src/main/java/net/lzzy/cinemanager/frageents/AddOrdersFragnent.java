@@ -205,7 +205,7 @@ public class AddOrdersFragnent extends BeseFargment implements View.OnClickListe
         }
     }
   /***
-   * 保存数据
+   * 销毁
    * */
     @Override
     public void onDetach() {

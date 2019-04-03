@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -16,6 +17,7 @@ import net.lzzy.cinemanager.R;
 import net.lzzy.cinemanager.frageents.AddCinemasFragment;
 import net.lzzy.cinemanager.frageents.AddOrdersFragnent;
 import net.lzzy.cinemanager.frageents.BeseFargment;
+import net.lzzy.cinemanager.frageents.CinenaOrdersFragment;
 import net.lzzy.cinemanager.frageents.CinmasFragment;
 import net.lzzy.cinemanager.frageents.OnFrgenTutoeractuibKustebt;
 import net.lzzy.cinemanager.frageents.OrdersFragment;
@@ -29,8 +31,9 @@ import net.lzzy.cinemanager.utils.ViewUtils;
  * @author Administrator
  */
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener ,
-        OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber, AddOrdersFragnent.OnOrderCreatedKusteber {
-
+        OnFrgenTutoeractuibKustebt ,AddCinemasFragment.OnCinemaCreatedKusteber,
+        AddOrdersFragnent.OnOrderCreatedKusteber , CinmasFragment.OnCinemaSelectedLiseener {
+    private static final String EXTRA_CINEMA_ID = "cinemaId";
     private FragmentManager manager= getSupportFragmentManager();
       private View layoutMenu;
       private SearchView searoh;
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     Fragment cinemasFragment=fragmentArray.get(R.id.bar_title_tv_view_cinema);
    FragmentTransaction transaction=manager.beginTransaction();
     if (cinemasFragment==null){
-        cinemasFragment =new CinmasFragment(cinema);
+        cinemasFragment =CinmasFragment.newInstance(cinema);
         fragmentArray.put(R.id.bar_title_tv_view_cinema,cinemasFragment);
     transaction.add(R.id.fraqnebt_container,cinemasFragment);
     }else {
@@ -192,7 +195,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         Fragment ordersFragment=fragmentArray.get(R.id.bar_title_tv_view_order);
         FragmentTransaction transaction=manager.beginTransaction();
         if (ordersFragment==null){
-           ordersFragment=new OrdersFragment(order);
+           ordersFragment=OrdersFragment.newInstance(order);
             fragmentArray.put(R.id.bar_title_tv_view_order,ordersFragment);
             transaction.add(R.id.fraqnebt_container,ordersFragment);
         }else {
@@ -200,5 +203,12 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         }
         transaction.hide(addOrderFragemnet).show(ordersFragment).commit();
         tvTitle.setText(titleArray.get(R.id.bar_title_tv_view_order));
+    }
+
+    @Override
+    public void onCinemaSelected(String cinemaId) {
+        Intent intent=new Intent(MainActivity.this, CinenmaOrdersActivity.class);
+        intent.putExtra(EXTRA_CINEMA_ID,cinemaId);
+       startActivity(intent);
     }
 }
